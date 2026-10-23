@@ -27,6 +27,12 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Remove local.properties if exists
+        run: rm -f android/local.properties
+
+      - name: Remove org.gradle.java.home if present
+        run: sed -i '/org.gradle.java.home/d' android/gradle.properties
+
       - name: Install dependencies
         run: flutter pub get
 
