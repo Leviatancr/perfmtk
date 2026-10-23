@@ -25,16 +25,19 @@ jobs:
         with:
           flutter-version: '3.47.7'
           channel: stable
-          cache: true
-
-      - name: Remove local.properties if exists
-        run: rm -f android/local.properties
+          cache: false
 
       - name: Remove org.gradle.java.home if present
         run: sed -i '/org.gradle.java.home/d' android/gradle.properties
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Verify icon asset exists
+        run: |
+          echo "Checking icon..."
+          ls -la assets/icon/
+          file assets/icon/icon.png
 
       - name: Build APK (arm64)
         run: flutter build apk --release --target-platform android-arm64
