@@ -21,8 +21,7 @@ class ProfileTileService : TileService() {
         val current = getCurrentProfile()
         val next = when (current) {
             "balanced" -> "performance"
-            "performance" -> "powersave"
-            "powersave" -> "balanced"
+            "performance" -> "balanced"
             else -> "balanced"
         }
 
@@ -95,9 +94,6 @@ class ProfileTileService : TileService() {
             }
             "balanced" -> {
                 tile.state = Tile.STATE_ACTIVE
-            }
-            "powersave", "powersave+" -> {
-                tile.state = Tile.STATE_INACTIVE
             }
             else -> {
                 tile.state = Tile.STATE_INACTIVE

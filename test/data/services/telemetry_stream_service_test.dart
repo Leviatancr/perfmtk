@@ -121,12 +121,12 @@ void main() {
 
       fakeProcess.stdoutController.add(utf8.encode('Random garbage\n'));
       fakeProcess.stdoutController.add(utf8.encode('{"incomplete": \n'));
-      fakeProcess.stdoutController.add(utf8.encode('{"active_profile":"powersave"}\n'));
+      fakeProcess.stdoutController.add(utf8.encode('{"active_profile":"performance"}\n'));
 
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(emissions.length, 1);
-      expect(emissions.first.currentProfile, ProfileType.powersave);
+      expect(emissions.first.currentProfile, ProfileType.performance);
 
       await sub.cancel();
       service.dispose();

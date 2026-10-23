@@ -1034,16 +1034,6 @@ class _ProfileSelectionSheetState extends State<ProfileSelectionSheet> {
         name: ProfileUtils.nameFor(context, ProfileType.balanced),
         description: AppLocale.balancedDesc.getString(context),
       ),
-      _SheetProfileData(
-        profileType: ProfileType.powersave,
-        name: ProfileUtils.nameFor(context, ProfileType.powersave),
-        description: AppLocale.powersaveDesc.getString(context),
-      ),
-      _SheetProfileData(
-        profileType: ProfileType.powersavePlus,
-        name: ProfileUtils.nameFor(context, ProfileType.powersavePlus),
-        description: AppLocale.powersavePlusDesc.getString(context),
-      ),
     ];
   }
 }

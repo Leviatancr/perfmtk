@@ -30,14 +30,14 @@ com.example.existing=powersave
     final staleAppSave = repository.saveConfig(
       {
         'com.example.existing': const AppProfileEntryData(
-          profile: ProfileType.powersave,
+          profile: ProfileType.balanced,
         ),
         'com.example.new': const AppProfileEntryData(
           profile: ProfileType.balanced,
         ),
       },
       ProfileType.balanced,
-      ProfileType.powersave,
+      ProfileType.balanced,
       3000,
     );
 
@@ -81,7 +81,7 @@ com.whatsapp=powersave;uclamp_max=40
 
     final whatsapp = config.entries['com.whatsapp'];
     expect(whatsapp, isNotNull);
-    expect(whatsapp!.profile, ProfileType.powersave);
+    expect(whatsapp!.profile, ProfileType.balanced);
     expect(whatsapp.directives.uclampMax, 40);
 
     // Verify serialization preserves all directives

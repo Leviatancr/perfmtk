@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +5,6 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:manager/config/theme.dart';
 import 'package:manager/config/theme_provider.dart';
 import 'package:manager/localization/app_locales.dart';
-import 'package:manager/presentation/providers/app_profile_provider.dart';
-import 'package:manager/presentation/providers/app_profile_visibility_provider.dart';
 import 'package:manager/presentation/navigator.dart' as app_navigator;
 
 class MyApp extends ConsumerStatefulWidget {
@@ -32,23 +29,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       initLanguageCode: systemLanguage == 'es' ? 'es' : 'en',
     );
     localization.onTranslatedLanguage = _onTranslatedLanguage;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_preloadAppProfiles());
-    });
-  }
-
-  Future<void> _preloadAppProfiles() async {
-    try {
-      final isVisible = await ref.read(appProfileVisibilityProvider.future);
-      if (!mounted || !isVisible) return;
-
-      // Keep first paint responsive, then warm installed app metadata/icons.
-      await Future<void>.delayed(const Duration(milliseconds: 250));
-      if (!mounted) return;
-      await ref.read(appProfileProvider.future);
-    } catch (_) {
-      // The tab keeps its regular retry UI if background preloading fails.
-    }
   }
 
   void _onTranslatedLanguage(Locale? locale) {

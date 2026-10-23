@@ -124,7 +124,7 @@ class HardwareTelemetryCard extends StatelessWidget {
           _buildGpuAndDramSection(context),
           const SizedBox(height: AppConstants.spacing14),
 
-          // ── Riel 3: Núcleo Térmico & Smart Bypass ─────────────────────
+          // ── Riel 3: Núcleo Térmico y batería ──────────────────────────
           _buildThermalAndPowerSection(context),
         ],
       ),
