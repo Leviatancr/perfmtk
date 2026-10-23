@@ -27,15 +27,13 @@ jobs:
           channel: stable
           cache: false
 
-      - name: Remove org.gradle.java.home if present
-        run: sed -i '/org.gradle.java.home/d' android/gradle.properties
-
-      - name: Remove icon asset reference from pubspec if present
+      - name: Clean gradle and java home
         run: |
-          sed -i '/assets\/icon\/icon\.png/d' pubspec.yaml
-          sed -i '/^  assets:$/{ N; /\n$/d }' pubspec.yaml
-          echo "=== pubspec.yaml flutter section ==="
-          grep -A 10 "^flutter:" pubspec.yaml
+          sed -i '/org.gradle.java.home/d' android/gradle.properties
+          cat android/gradle.properties
+
+      - name: Show pubspec flutter section
+        run: grep -A 5 "^flutter:" pubspec.yaml
 
       - name: Install dependencies
         run: flutter pub get
