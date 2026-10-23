@@ -9,14 +9,14 @@ import 'package:manager/presentation/widgets/realtime_thermal_chart.dart';
 import 'package:manager/config/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ThermalScreen extends ConsumerStatefulWidget {
-  const ThermalScreen({super.key});
+class SystemDataScreen extends ConsumerStatefulWidget {
+  const SystemDataScreen({super.key});
 
   @override
-  ConsumerState<ThermalScreen> createState() => _ThermalScreenState();
+  ConsumerState<SystemDataScreen> createState() => _SystemDataScreenState();
 }
 
-class _ThermalScreenState extends ConsumerState<ThermalScreen>
+class _SystemDataScreenState extends ConsumerState<SystemDataScreen>
     with SingleTickerProviderStateMixin, EntryAnimationMixin {
   @override
   void initState() {

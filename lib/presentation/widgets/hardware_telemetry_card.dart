@@ -447,7 +447,6 @@ class HardwareTelemetryCard extends StatelessWidget {
         ? _tempColor(state.socTempC!, isDark)
         : (isDark ? const Color(0xFF10B981) : const Color(0xFF059669));
     final thermalRatio = _calcThermalRatio(state.socTempC);
-    final bypassColor = isDark ? const Color(0xFFF59E0B) : const Color(0xFFD97706);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -539,19 +538,15 @@ class HardwareTelemetryCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppConstants.spacing8),
-            // ── Power Rail & Bypass ──────────────────────────────────────
+            // ── Battery Power Rail ────────────────────────────────────────
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 9),
                 decoration: BoxDecoration(
-                  color: state.chargeBypass
-                      ? bypassColor.withValues(alpha: isDark ? 0.12 : 0.10)
-                      : cs.surfaceContainerHighest.withValues(alpha: isDark ? 0.28 : 0.40),
+                  color: cs.surfaceContainerHighest.withValues(alpha: isDark ? 0.28 : 0.40),
                   borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
                   border: Border.all(
-                    color: state.chargeBypass
-                        ? bypassColor.withValues(alpha: isDark ? 0.40 : 0.35)
-                        : cs.outlineVariant.withValues(alpha: isDark ? 0.18 : 0.25),
+                    color: cs.outlineVariant.withValues(alpha: isDark ? 0.18 : 0.25),
                     width: 0.8,
                   ),
                 ),
@@ -561,58 +556,44 @@ class HardwareTelemetryCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          state.chargeBypass
-                              ? Icons.bolt_rounded
-                              : Icons.battery_charging_full_rounded,
+                          Icons.battery_charging_full_rounded,
                           size: 12,
-                          color: state.chargeBypass
-                              ? bypassColor
-                              : cs.onSurfaceVariant,
+                          color: cs.onSurfaceVariant,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          state.chargeBypass
-                              ? AppLocale.smartBypass.getString(context)
-                              : AppLocale.powerRail.getString(context),
+                          AppLocale.powerRail.getString(context),
                           style: TextStyle(
                             fontSize: 9.5,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.3,
-                            color: state.chargeBypass
-                                ? bypassColor
-                                : cs.onSurfaceVariant,
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      state.chargeBypass
-                          ? AppLocale.directSilicon.getString(context)
-                          : (state.batteryCapacityPct != null
-                              ? AppLocale.batteryPct
-                                  .getString(context)
-                                  .replaceAll('{pct}', state.batteryCapacityPct.toString())
-                              : AppLocale.batteryOk.getString(context)),
+                      state.batteryCapacityPct != null
+                          ? AppLocale.batteryPct
+                              .getString(context)
+                              .replaceAll('{pct}', state.batteryCapacityPct.toString())
+                          : AppLocale.batteryOk.getString(context),
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w800,
                         fontSize: 12.5,
-                        color: state.chargeBypass
-                            ? bypassColor
-                            : cs.onSurface,
+                        color: cs.onSurface,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      state.chargeBypass
-                          ? AppLocale.cellIsolated.getString(context)
-                          : (state.batteryTempC != null
-                              ? AppLocale.batteryTempCell
-                                  .getString(context)
-                                  .replaceAll('{temp}', state.batteryTempC.toString())
-                              : AppLocale.standardConsumption.getString(context)),
+                      state.batteryTempC != null
+                          ? AppLocale.batteryTempCell
+                              .getString(context)
+                              .replaceAll('{temp}', state.batteryTempC.toString())
+                          : AppLocale.standardConsumption.getString(context),
                       style: TextStyle(
                         fontSize: 9.5,
                         color: cs.onSurfaceVariant.withValues(alpha: 0.75),

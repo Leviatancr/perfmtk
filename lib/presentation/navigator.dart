@@ -4,18 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:manager/localization/app_locales.dart';
-import 'package:manager/presentation/providers/app_profile_visibility_provider.dart';
 import 'package:manager/presentation/providers/system_provider.dart';
-import 'package:manager/presentation/screens/app_profiles_screen.dart';
 import 'package:manager/presentation/screens/perf_config_screen.dart';
 import 'package:manager/presentation/screens/profiles_screen.dart';
 import 'package:manager/presentation/screens/settings_screen.dart';
-import 'package:manager/presentation/screens/thermal_screen.dart';
+import 'package:manager/presentation/screens/system_data_screen.dart';
 import 'package:manager/core/utils/update_checker.dart';
 import 'package:manager/config/app_constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-enum NavScreens { profiles, appProfiles, perfConfig, thermal }
+enum NavScreens { profiles, perfConfig, systemData }
 
 class AppNavigator extends ConsumerStatefulWidget {
   const AppNavigator({super.key});
@@ -82,23 +80,19 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
   }
 
   /// Ordered list of screens currently visible in the nav bar.
-  List<NavScreens> _screenList(bool showAppProfiles) => [
+  List<NavScreens> get _screenList => [
     NavScreens.profiles,
-    if (showAppProfiles) NavScreens.appProfiles,
     NavScreens.perfConfig,
-    NavScreens.thermal,
+    NavScreens.systemData,
   ];
 
-  NavScreens _effectiveScreen(bool showAppProfiles) {
-    final list = _screenList(showAppProfiles);
-    return list.contains(_currentScreen) ? _currentScreen : NavScreens.profiles;
+  NavScreens get _effectiveScreen {
+    return _screenList.contains(_currentScreen) ? _currentScreen : NavScreens.profiles;
   }
 
   @override
   Widget build(BuildContext context) {
-    final showAppProfiles =
-        ref.watch(appProfileVisibilityProvider).value ?? false;
-    final currentScreen = _effectiveScreen(showAppProfiles);
+    final currentScreen = _effectiveScreen;
 
     final systemState = ref.watch(systemStateProvider).value;
 
@@ -113,9 +107,8 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
           child: Text(
             switch (currentScreen) {
               NavScreens.profiles => 'PerfMTK Manager',
-              NavScreens.appProfiles => AppLocale.appProfiles.getString(context),
               NavScreens.perfConfig => AppLocale.perfConfig.getString(context),
-              NavScreens.thermal => AppLocale.thermal.getString(context),
+              NavScreens.systemData => 'Datos del Sistema',
             },
             key: ValueKey(currentScreen),
           ),
@@ -182,18 +175,17 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
           const SizedBox(width: 4),
         ],
       ),
-      body: _buildBody(currentScreen, showAppProfiles),
-      bottomNavigationBar: _buildNavBar(showAppProfiles),
+      body: _buildBody(currentScreen),
+      bottomNavigationBar: _buildNavBar(),
     );
   }
 
-  Widget _buildBody(NavScreens currentScreen, bool showAppProfiles) {
+  Widget _buildBody(NavScreens currentScreen) {
     return Stack(
       fit: StackFit.expand,
       children: [
         for (final screen in NavScreens.values)
-          if (_visitedScreens.contains(screen) &&
-              (screen != NavScreens.appProfiles || showAppProfiles))
+          if (_visitedScreens.contains(screen))
             Offstage(
               key: ValueKey(screen),
               offstage: screen != currentScreen,
@@ -208,15 +200,14 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
 
   Widget _screenFor(NavScreens screen) => switch (screen) {
     NavScreens.profiles => const ProfilesScreen(),
-    NavScreens.appProfiles => const AppProfilesScreen(),
     NavScreens.perfConfig => const PerfConfigScreen(),
-    NavScreens.thermal => const ThermalScreen(),
+    NavScreens.systemData => const SystemDataScreen(),
   };
 
-  Widget _buildNavBar(bool showAppProfiles) {
+  Widget _buildNavBar() {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final screens = _screenList(showAppProfiles);
+    final screens = _screenList;
 
     return SafeArea(
       child: Padding(
@@ -293,25 +284,22 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
         Icons.tune,
         AppLocale.profiles,
       ),
-      NavScreens.appProfiles => (
-        Icons.apps_rounded,
-        Icons.apps_outlined,
-        AppLocale.appProfiles,
-      ),
       NavScreens.perfConfig => (
         Icons.speed_rounded,
         Icons.speed_outlined,
         AppLocale.perfConfig,
       ),
-      NavScreens.thermal => (
-        Icons.thermostat_rounded,
-        Icons.thermostat_outlined,
-        AppLocale.thermal,
+      NavScreens.systemData => (
+        Icons.monitor_heart_rounded,
+        Icons.monitor_heart_outlined,
+        'systemData',
       ),
     };
 
     final accentColor = isDark ? const Color(0xFF38BDF8) : const Color(0xFF2563EB);
-    final label = AppLocale.getValue(labelKey).getString(context);
+    final label = labelKey == 'systemData' 
+        ? 'Sistema' 
+        : AppLocale.getValue(labelKey).getString(context);
 
     return InkWell(
       onTap: () {

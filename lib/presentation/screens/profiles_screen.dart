@@ -5,7 +5,6 @@ import 'package:manager/localization/app_locales.dart';
 import 'package:manager/data/models/profile.dart';
 import 'package:manager/data/models/system_state.dart';
 import 'package:manager/presentation/providers/system_provider.dart';
-import 'package:manager/presentation/widgets/activate_144hz_card.dart';
 import 'package:manager/presentation/widgets/profile_button.dart';
 import 'package:manager/presentation/widgets/profile_utils.dart';
 import 'package:manager/presentation/widgets/hardware_telemetry_card.dart';
@@ -87,11 +86,7 @@ class _ProfilesScreenState extends ConsumerState<ProfilesScreen>
                   _ProfileGridSection(onSelectProfile: _setProfile),
                   const SizedBox(height: AppConstants.spacing20),
 
-                  // 3. 144 Hz one-tap action
-                  const Activate144HzCard(),
-                  const SizedBox(height: AppConstants.spacing20),
-
-                  // 4. Monitor de Hardware en Vivo
+                  // 3. Monitor de Hardware en Vivo
                   const _HardwareTelemetrySection(),
                   const SizedBox(
                     height: AppConstants.spacing80 + AppConstants.spacing16,
@@ -247,46 +242,22 @@ class _ProfileGridSection extends ConsumerWidget {
       child: AnimatedOpacity(
         duration: AppConstants.animationFast,
         opacity: isChanging ? AppConstants.opacityDisabled : 1.0,
-        child: Column(
+        child: Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ProfileButton(
-                    profile: ProfileType.performance,
-                    isSelected: currentProfile == ProfileType.performance,
-                    onTap: () => onSelectProfile(ProfileType.performance),
-                  ),
-                ),
-                const SizedBox(width: AppConstants.spacing10),
-                Expanded(
-                  child: ProfileButton(
-                    profile: ProfileType.balanced,
-                    isSelected: currentProfile == ProfileType.balanced,
-                    onTap: () => onSelectProfile(ProfileType.balanced),
-                  ),
-                ),
-              ],
+            Expanded(
+              child: ProfileButton(
+                profile: ProfileType.performance,
+                isSelected: currentProfile == ProfileType.performance,
+                onTap: () => onSelectProfile(ProfileType.performance),
+              ),
             ),
-            const SizedBox(height: AppConstants.spacing10),
-            Row(
-              children: [
-                Expanded(
-                  child: ProfileButton(
-                    profile: ProfileType.powersave,
-                    isSelected: currentProfile == ProfileType.powersave,
-                    onTap: () => onSelectProfile(ProfileType.powersave),
-                  ),
-                ),
-                const SizedBox(width: AppConstants.spacing10),
-                Expanded(
-                  child: ProfileButton(
-                    profile: ProfileType.powersavePlus,
-                    isSelected: currentProfile == ProfileType.powersavePlus,
-                    onTap: () => onSelectProfile(ProfileType.powersavePlus),
-                  ),
-                ),
-              ],
+            const SizedBox(width: AppConstants.spacing10),
+            Expanded(
+              child: ProfileButton(
+                profile: ProfileType.balanced,
+                isSelected: currentProfile == ProfileType.balanced,
+                onTap: () => onSelectProfile(ProfileType.balanced),
+              ),
             ),
           ],
         ),

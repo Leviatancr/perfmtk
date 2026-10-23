@@ -1,8 +1,6 @@
 enum ProfileType {
   performance('performance'),
-  balanced('balanced'),
-  powersave('powersave'),
-  powersavePlus('powersave+');
+  balanced('balanced');
 
   const ProfileType(this.value);
   final String value;
@@ -18,10 +16,6 @@ enum ProfileType {
         return 'Performance';
       case ProfileType.balanced:
         return 'Balanced';
-      case ProfileType.powersave:
-        return 'Power Save';
-      case ProfileType.powersavePlus:
-        return 'Power Save+';
     }
   }
 }
