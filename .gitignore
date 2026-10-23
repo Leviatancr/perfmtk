@@ -1,4 +1,4 @@
-# Miscellaneous
+﻿# Miscellaneous
 *.class
 *.log
 *.pyc
@@ -46,7 +46,7 @@ app.*.map.json
 
 # Inspection screenshots and debug logs
 *.png
+!android/app/src/main/res/mipmap-*/*.png
+!assets/icon/*.png
 stdout
 .agents/
-graphify-out/
-
