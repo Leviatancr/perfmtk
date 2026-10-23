@@ -27,15 +27,16 @@ jobs:
           channel: stable
           cache: false
 
-      - name: Clean gradle and java home
-        run: |
-          sed -i '/org.gradle.java.home/d' android/gradle.properties
-          cat android/gradle.properties
-
-      - name: Show pubspec flutter section
-        run: grep -A 5 "^flutter:" pubspec.yaml
+      - name: Clean gradle java home
+        run: sed -i '/org.gradle.java.home/d' android/gradle.properties
 
       - name: Install dependencies
+        run: flutter pub get
+
+      - name: Flutter clean
+        run: flutter clean
+
+      - name: Flutter pub get again after clean
         run: flutter pub get
 
       - name: Build APK (arm64)
