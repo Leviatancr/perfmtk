@@ -52,7 +52,7 @@ class ConfigData {
     return const ConfigData(
       entries: {},
       defaultProfile: ProfileType.balanced,
-      screenOffProfile: ProfileType.powersave,
+      screenOffProfile: ProfileType.balanced,
       appDebounceMs: 3000,
       existsOnDisk: false,
     );
@@ -108,7 +108,7 @@ class ConfigRepositoryImpl implements ConfigRepository {
   ConfigData _parseConfig(String content) {
     final entries = <String, AppProfileEntryData>{};
     ProfileType defaultProfile = ProfileType.balanced;
-    ProfileType screenOffProfile = ProfileType.powersave;
+    ProfileType screenOffProfile = ProfileType.balanced;
     int appDebounceMs = 3000;
 
     for (final rawLine in content.split('\n')) {

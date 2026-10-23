@@ -484,10 +484,6 @@ class ProfileConfParser {
         return 'PERFORMANCE';
       case ProfileType.balanced:
         return 'BALANCED';
-      case ProfileType.powersave:
-        return 'POWERSAVE';
-      case ProfileType.powersavePlus:
-        return 'POWERSAVE+';
     }
   }
 
@@ -497,10 +493,6 @@ class ProfileConfParser {
         return 'Maximizes performance, higher power consumption';
       case ProfileType.balanced:
         return 'Balance between performance and battery life';
-      case ProfileType.powersave:
-        return 'Optimizes battery life, reduced performance';
-      case ProfileType.powersavePlus:
-        return 'Maximum battery saving, minimal performance';
     }
   }
 
